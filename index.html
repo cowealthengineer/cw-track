@@ -20,7 +20,7 @@ document.getElementById('b').textContent = b;
 fetch('current.txt?t=' + Date.now(), {cache: 'no-store'}).then(function (r) { return r.text(); }).then(function (u) {
   u = (u || '').trim().replace(/\/+$/, '');
   if (!/^https:\/\//.test(u)) throw 0;
-  location.replace(u + (b ? '/t/' + encodeURIComponent(b) : '/track'));
+  location.replace(u + (b ? '/t/' + encodeURIComponent(b) : '/m'));   // 沒帶批號＝手機首頁（批號／品名搜尋）
 }).catch(function () {
   document.getElementById('m').innerHTML = '系統暫時連不上，請稍後再掃一次。<br>（公司電腦可能正在重新開機）';
 });
