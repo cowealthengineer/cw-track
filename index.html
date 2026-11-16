@@ -3,6 +3,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>竟丞 產品追蹤</title>
+<!-- 主畫面圖示掛在這個固定網址（2026-11-16）：掛在通道網址上，通道一換網址圖示就變 1033 -->
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#1f6feb">
+<link rel="apple-touch-icon" href="icon.png"><meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="產品追蹤">
 <style>
 :root{--bg:#eef1f5;--ink:#1d2433;--sub:#5b6577;--blue:#1f6feb}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft JhengHei","PingFang TC",sans-serif;
@@ -15,8 +19,13 @@ a{color:var(--blue)}
 <script>
 /* 固定轉址頁：QR 印的是這個網址，永遠不變。
    current.txt 記的是「現在連得到的通道網址」，通道換網址時由公司電腦自動更新（只有這一行，沒有任何資料）。 */
-var b = new URLSearchParams(location.search).get('b') || '';
+var q = new URLSearchParams(location.search), b = q.get('b') || '';
 document.getElementById('b').textContent = b;
+if (q.has('install')) {   // 放到主畫面用：這一頁不轉走，讓瀏覽器選單的「加到主畫面」記住固定網址
+  document.getElementById('b').textContent = '放到手機主畫面';
+  document.getElementById('m').innerHTML = '請現在按瀏覽器選單：<br><b>安卓</b>：右上角 ⋮ →「加到主畫面」或「安裝應用程式」<br><b>iPhone</b>：下方分享鈕 →「加入主畫面」<br><br>'
+    + '加好之後從主畫面點開就能用，系統換線路也不會失效。<br>舊的「產品追蹤」圖示請刪掉。<br><br><a href="./">直接進入系統</a>';
+} else
 fetch('current.txt?t=' + Date.now(), {cache: 'no-store'}).then(function (r) { return r.text(); }).then(function (u) {
   u = (u || '').trim().replace(/\/+$/, '');
   if (!/^https:\/\//.test(u)) throw 0;
